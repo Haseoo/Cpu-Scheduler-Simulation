@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+
+<?import javafx.scene.layout.VBox?>
+<TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1">
+    <Tab text="CPU stats">
+        <ScrollPane fitToWidth="true">
+            <TableView fx:id="cpuStatsTable">
+                <columns>
+                    <TableColumn prefWidth="75.0" text="Stat name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="75.0" text="Stat Value">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="value" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </ScrollPane>
+    </Tab>
+    <Tab text="Idle/executing cycles">
+        <ScrollPane fitToWidth="true" prefHeight="200.0" prefWidth="200.0">
+            <PieChart fx:id="idleExecCycles" legendVisible="false" scaleShape="false" title="Idle vs executing cycles" />
+        </ScrollPane>
+    </Tab>
+    <Tab text="Processes count on cycles">
+        <ScrollPane fitToWidth="true">
+            <VBox alignment="CENTER" fillWidth="false">
+                <LineChart fx:id="countChart" title="Processes count on cycles">
+                    <xAxis>
+                        <NumberAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </LineChart>
+            </VBox>
+        </ScrollPane>
+    </Tab>
+    <Tab text="Processes stats">
+        <ScrollPane fitToHeight="true" fitToWidth="true">
+            <TableView fx:id="processesStatsTable">
+                <columns>
+                    <TableColumn prefWidth="75.0" text="Process name">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="name" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="75.0" text="Execution time in cycles">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="executionTime" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="75.0" text="Total waiting cycles">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="totalWaitingCycles" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="75.0" text="Average waiting cycles">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="averageWaitingCycles" />
+                        </cellValueFactory>
+                    </TableColumn>
+                    <TableColumn prefWidth="75.0" text="Context switches">
+                        <cellValueFactory>
+                            <PropertyValueFactory property="contextSwitches" />
+                        </cellValueFactory>
+                    </TableColumn>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+            </TableView>
+        </ScrollPane>
+    </Tab>
+    <Tab text="Process execution">
+        <ScrollPane fitToHeight="true" prefHeight="200.0" prefWidth="200.0">
+            <StackedBarChart fx:id="processExecChart" title="Process Execution cycles">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </StackedBarChart>
+        </ScrollPane>
+    </Tab>
+    <Tab text="Average waiting">
+        <ScrollPane fitToHeight="true">
+            <BarChart fx:id="averageWTChart" legendVisible="false" title="Average waiting cycles">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" />
+                </yAxis>
+            </BarChart>
+        </ScrollPane>
+    </Tab>
+    <Tab text="Context switches">
+        <ScrollPane fitToHeight="true">
+            <BarChart fx:id="contextSwitchesChart" legendVisible="false" title="Number of context switches">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM" />
+                </xAxis>
+                <yAxis>
+                    <NumberAxis side="LEFT" tickUnit="1.0" />
+                </yAxis>
+            </BarChart>
+        </ScrollPane>
+    </Tab>
+</TabPane>
