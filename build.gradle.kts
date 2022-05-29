@@ -36,5 +36,5 @@ tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "11"
 }
 application {
-    mainClassName = "MainKt"
+    mainClassName = "com.github.haseoo.cpuschedsim.MainKt"
 }
