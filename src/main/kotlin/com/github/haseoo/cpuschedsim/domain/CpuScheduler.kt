@@ -1,8 +1,8 @@
 package com.github.haseoo.cpuschedsim.domain
 
-import com.github.haseoo.cpuschedsim.controller.stats.CpuStats
-import com.github.haseoo.cpuschedsim.controller.stats.IProcessStats
-import com.github.haseoo.cpuschedsim.controller.stats.ProcessStats
+import com.github.haseoo.cpuschedsim.domain.stats.CpuStats
+import com.github.haseoo.cpuschedsim.domain.stats.IProcessStats
+import com.github.haseoo.cpuschedsim.domain.stats.ProcessStats
 import java.util.*
 
 class CpuScheduler(private val processes: List<Process>) {

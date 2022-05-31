@@ -1,6 +1,6 @@
 package com.github.haseoo.cpuschedsim.domain
 
-import com.github.haseoo.cpuschedsim.controller.stats.ProcessStats
+import com.github.haseoo.cpuschedsim.domain.stats.ProcessStats
 
 class Process(
     private val length: Int,

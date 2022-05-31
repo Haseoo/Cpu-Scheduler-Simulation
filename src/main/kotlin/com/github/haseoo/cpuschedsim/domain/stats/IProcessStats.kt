@@ -1,4 +1,4 @@
-package com.github.haseoo.cpuschedsim.controller.stats
+package com.github.haseoo.cpuschedsim.domain.stats
 
 interface IProcessStats {
     val totalInterruptedCycles: String

@@ -2,14 +2,19 @@ package com.github.haseoo.cpuschedsim.controller
 
 import com.github.haseoo.cpuschedsim.domain.CpuScheduler
 import com.github.haseoo.cpuschedsim.generateProcesses
+import com.github.haseoo.cpuschedsim.getResourceURL
 import javafx.animation.Animation
 import javafx.animation.KeyFrame
 import javafx.animation.Timeline
 import javafx.fxml.FXML
+import javafx.fxml.FXMLLoader
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.scene.control.Label
 import javafx.scene.control.ListView
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
+import javafx.stage.Stage
 import javafx.util.Duration
 import java.util.function.Function
 
@@ -107,7 +112,14 @@ class MainWindowController {
     }
 
     private fun openStats() {
-        cpuScheduler!!.calculateCpuStats()
-        cpuScheduler!!.calculateProcessStats()
+        val loader = FXMLLoader(getResourceURL("stats.fxml"))
+        loader.setController(StatWindowController(cpuScheduler!!.calculateCpuStats(),
+            cpuScheduler!!.calculateProcessStats()))
+        val root = loader.load<Parent>()
+        val scene = Scene(root)
+        val stage = Stage()
+        stage.scene = scene
+        stage.title = "Stats"
+        stage.show()
     }
 }

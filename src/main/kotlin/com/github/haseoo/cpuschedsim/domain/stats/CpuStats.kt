@@ -1,4 +1,4 @@
-package com.github.haseoo.cpuschedsim.controller.stats
+package com.github.haseoo.cpuschedsim.domain.stats
 
 const val EXECUTING_CYCLES = "Executing cycles"
 const val IDLE_CYCLES = "Idle cycles"
