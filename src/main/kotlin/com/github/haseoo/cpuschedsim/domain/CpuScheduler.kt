@@ -1,8 +1,11 @@
 package com.github.haseoo.cpuschedsim.domain
 
+import com.github.haseoo.cpuschedsim.controller.stats.CpuStats
+import com.github.haseoo.cpuschedsim.controller.stats.IProcessStats
+import com.github.haseoo.cpuschedsim.controller.stats.ProcessStats
 import java.util.*
 
-class CpuScheduler(processes: List<Process>) {
+class CpuScheduler(private val processes: List<Process>) {
 
     private var cycle = 0
 
@@ -15,7 +18,6 @@ class CpuScheduler(processes: List<Process>) {
     private val interruptedProcesses: MutableList<Process> = ArrayList()
 
     private var currentProcess: Process? = null
-
 
     private var idleCycles = 0
 
@@ -31,13 +33,17 @@ class CpuScheduler(processes: List<Process>) {
                 interruptedProcesses.isEmpty() &&
                 notStartedProcesses.isEmpty()
 
+    init {
+        this.notStartedProcesses.addAll(processes)
+        startProcesses(0)
+    }
+
 
     fun consumeWaitingProcessesNames(nameConsumer: (String) -> Unit) =
         waitingProcesses.forEach { nameConsumer(it.name) }
 
     fun consumeInterruptedProcessesNames(nameConsumer: (String) -> Unit) =
         interruptedProcesses.forEach { nameConsumer(it.name) }
-
 
     fun getCurrentProcessName() = currentProcess?.name ?: "None"
 
@@ -51,6 +57,25 @@ class CpuScheduler(processes: List<Process>) {
         if (currentProcess == null) {
             idleCycles++
         }
+    }
+
+    fun calculateCpuStats(): CpuStats {
+        val stats = CpuStats(
+            waitingProcessCount.toList(),
+            interruptedProcessCount.toList()
+        )
+        stats.totalCycles = cycle
+        stats.idleCycles = idleCycles
+        stats.executingCycles = cycle - idleCycles
+        stats.contextChangeCount = contextChanges
+        stats.averageInterruptedCount = interruptedProcessCount.average()
+        stats.averageWaitingProcessCount = waitingProcessCount.average()
+        return stats
+    }
+
+    fun calculateProcessStats(): Collection<IProcessStats> {
+        val cpuProcessesStats = processes.map(Process::calculateStats)
+        return cpuProcessesStats + ProcessStats.calculateAverage(cpuProcessesStats)
     }
 
     private fun handleWaitingProcess() {
@@ -103,9 +128,4 @@ class CpuScheduler(processes: List<Process>) {
 
     private fun getProcessesStartingAtCycle(cycle: Int): List<Process> =
         notStartedProcesses.filter { it.start == cycle }
-
-    init {
-        this.notStartedProcesses.addAll(processes)
-        startProcesses(0)
-    }
 }

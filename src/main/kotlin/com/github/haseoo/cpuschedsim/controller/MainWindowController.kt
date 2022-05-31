@@ -102,7 +102,12 @@ class MainWindowController {
         if (cpuScheduler?.hasEnded == true) {
             timeline!!.stop()
             timeline = null
-            //openStats()
+            openStats()
         }
+    }
+
+    private fun openStats() {
+        cpuScheduler!!.calculateCpuStats()
+        cpuScheduler!!.calculateProcessStats()
     }
 }

@@ -1,5 +1,7 @@
 package com.github.haseoo.cpuschedsim.domain
 
+import com.github.haseoo.cpuschedsim.controller.stats.ProcessStats
+
 class Process(
     private val length: Int,
     private val interrupts: Collection<Interrupt>
@@ -50,4 +52,13 @@ class Process(
     fun endInterrupt() {
         currentInterrupt = null
     }
+
+    fun calculateStats(): ProcessStats = ProcessStats(
+        name,
+        waitingCycles.sum(),
+        waitingCycles.average(),
+        contextSwitches,
+        end!! - start!!,
+        interrupts.sumOf(Interrupt::length)
+    )
 }
