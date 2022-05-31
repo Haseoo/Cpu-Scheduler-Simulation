@@ -6,16 +6,10 @@ class Process(
 ) {
 
     var start: Int? = null
-        get
-        set
 
     var end: Int? = null
-        get
-        set
 
     var name = ""
-        get
-        set
 
     private var currentExecutionCycle = 0
 

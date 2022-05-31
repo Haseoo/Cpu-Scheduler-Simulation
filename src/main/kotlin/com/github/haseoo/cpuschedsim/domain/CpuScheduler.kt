@@ -5,7 +5,8 @@ import java.util.*
 class CpuScheduler(processes: List<Process>) {
 
     private var cycle = 0
-        get
+
+    val currentCycle get() = cycle
 
     private val waitingProcesses: Queue<Process> = LinkedList()
 
