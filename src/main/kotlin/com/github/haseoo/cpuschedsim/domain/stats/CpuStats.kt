@@ -7,8 +7,7 @@ const val AVERAGE_WAITING_PROCESS_COUNT = "Average waiting process count"
 const val AVERAGE_INTERRUPTED_PROCESS_COUNT = "Average interrupted process count"
 const val TOTAL_CONTEXT_CHANGES = "Total context changes"
 
-class CpuStatsRecord(val name: String, val value: String) {
-}
+class CpuStatsRecord(val name: String, val value: String)
 
 class CpuStats(val waitingProcessCount: List<Int>, val interruptedProcessCount: List<Int>) {
     private val _records: MutableMap<String, CpuStatsRecord> = HashMap()

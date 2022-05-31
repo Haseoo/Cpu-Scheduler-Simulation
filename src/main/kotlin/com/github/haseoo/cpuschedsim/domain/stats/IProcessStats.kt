@@ -16,7 +16,7 @@ class ProcessStats(
     private val _contextSwitches: Int,
     private val _executionTime: Int,
     private val _totalInterruptedCycles: Int
-): IProcessStats {
+) : IProcessStats {
 
     override val totalInterruptedCycles: String get() = _totalInterruptedCycles.toString()
 

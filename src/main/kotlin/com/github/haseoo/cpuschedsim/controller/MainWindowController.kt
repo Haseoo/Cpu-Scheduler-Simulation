@@ -74,7 +74,7 @@ class MainWindowController {
         val frame = timeline!!.keyFrames[0]
         val delay = delayCalculator.apply(frame.time)
         timeline!!.stop()
-        timeline = Timeline( KeyFrame(delay, { nextCycle() }) )
+        timeline = Timeline(KeyFrame(delay, { nextCycle() }))
         timeline!!.cycleCount = Timeline.INDEFINITE
         timeline!!.play()
     }
@@ -113,8 +113,12 @@ class MainWindowController {
 
     private fun openStats() {
         val loader = FXMLLoader(getResourceURL("stats.fxml"))
-        loader.setController(StatWindowController(cpuScheduler!!.calculateCpuStats(),
-            cpuScheduler!!.calculateProcessStats()))
+        loader.setController(
+            StatWindowController(
+                cpuScheduler!!.calculateCpuStats(),
+                cpuScheduler!!.calculateProcessStats()
+            )
+        )
         val root = loader.load<Parent>()
         val scene = Scene(root)
         val stage = Stage()

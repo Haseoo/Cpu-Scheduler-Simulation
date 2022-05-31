@@ -8,8 +8,10 @@ import javafx.scene.chart.*
 import javafx.scene.control.TableView
 import kotlin.math.max
 
-class StatWindowController(private val cpuStats: CpuStats,
-                           private val processStats: Collection<IProcessStats>) {
+class StatWindowController(
+    private val cpuStats: CpuStats,
+    private val processStats: Collection<IProcessStats>
+) {
     @FXML
     private var cpuStatsTable: TableView<CpuStatsRecord>? = null
 
@@ -70,7 +72,8 @@ class StatWindowController(private val cpuStats: CpuStats,
         xAxis.categories = processStats
             .map(IProcessStats::name)
             .toCollection(
-                FXCollections.observableArrayList())
+                FXCollections.observableArrayList()
+            )
         val series = XYChart.Series<String, Double>()
         series.name = "Average waiting time"
         processStats.forEach {
@@ -87,7 +90,8 @@ class StatWindowController(private val cpuStats: CpuStats,
         xAxis.categories = processStats
             .map(IProcessStats::name)
             .toCollection(
-               FXCollections.observableArrayList())
+                FXCollections.observableArrayList()
+            )
         val waitingSeries = XYChart.Series<String, Int>()
         waitingSeries.name = "Waiting cycles"
         val interruptedSeries = XYChart.Series<String, Int>()
@@ -131,12 +135,14 @@ class StatWindowController(private val cpuStats: CpuStats,
         val waitingProcessCount = cpuStats.waitingProcessCount
         val waitingSeries = XYChart.Series<Int, Int>()
         waitingProcessCount.forEachIndexed { index, value ->
-            waitingSeries.data.add(XYChart.Data(index, value)) }
+            waitingSeries.data.add(XYChart.Data(index, value))
+        }
         waitingSeries.name = "Waiting processes"
         val interruptedProcessCount = cpuStats.interruptedProcessCount
         val interruptedSeries = XYChart.Series<Int, Int>()
         interruptedProcessCount.forEachIndexed { index, value ->
-            interruptedSeries.data.add(XYChart.Data(index, value)) }
+            interruptedSeries.data.add(XYChart.Data(index, value))
+        }
         interruptedSeries.name = "interrupted processes"
         countChart!!.data?.add(waitingSeries)
         countChart?.data?.add(interruptedSeries)

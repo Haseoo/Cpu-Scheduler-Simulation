@@ -21,8 +21,8 @@ class Main : Application() {
         stage.show()
     }
 
-        fun main(args: Array<String>) {
-            launch(*args)
+    fun main(args: Array<String>) {
+        launch(*args)
     }
 
 }
