@@ -13,30 +13,30 @@ class StatWindowController(
     private val processStats: Collection<IProcessStats>
 ) {
     @FXML
-    private var cpuStatsTable: TableView<CpuStatsRecord>? = null
+    private lateinit var cpuStatsTable: TableView<CpuStatsRecord>
 
     @FXML
-    private var processesStatsTable: TableView<IProcessStats>? = null
+    private lateinit var processesStatsTable: TableView<IProcessStats>
+    
+    @FXML
+    private lateinit var idleExecCycles: PieChart
 
     @FXML
-    private var idleExecCycles: PieChart? = null
+    private lateinit var countChart: LineChart<Int, Int>
 
     @FXML
-    private var countChart: LineChart<Int, Int>? = null
+    private lateinit var processExecChart: StackedBarChart<String, Int>
 
     @FXML
-    private var processExecChart: StackedBarChart<String, Int>? = null
+    private lateinit var averageWTChart: BarChart<String, Double>
 
     @FXML
-    private var averageWTChart: BarChart<String, Double>? = null
-
-    @FXML
-    private var contextSwitchesChart: BarChart<String, Number>? = null
+    private lateinit var contextSwitchesChart: BarChart<String, Number>
 
     @FXML
     private fun initialize() {
-        cpuStatsTable?.items?.addAll(cpuStats.records)
-        processesStatsTable?.items?.addAll(processStats)
+        cpuStatsTable.items.addAll(cpuStats.records)
+        processesStatsTable.items.addAll(processStats)
         idleVsExecChart()
         countChart()
         processExecChart()
@@ -45,9 +45,9 @@ class StatWindowController(
     }
 
     private fun contextSwitches() {
-        contextSwitchesChart?.xAxis?.label = "Process name"
-        contextSwitchesChart?.yAxis?.label = "Number of context switches"
-        val xAxis = processExecChart!!.xAxis as CategoryAxis
+        contextSwitchesChart.xAxis.label = "Process name"
+        contextSwitchesChart.yAxis.label = "Number of context switches"
+        val xAxis = processExecChart.xAxis as CategoryAxis
         xAxis.categories = processStats
             .map { it.name }
             .toCollection(FXCollections.observableArrayList())
@@ -61,14 +61,14 @@ class StatWindowController(
                 )
             )
         }
-        contextSwitchesChart?.data?.add(series)
-        contextSwitchesChart?.prefWidth = (processStats.size * 75).toDouble()
+        contextSwitchesChart.data.add(series)
+        contextSwitchesChart.prefWidth = (processStats.size * 75).toDouble()
     }
 
     private fun averageWaitingTime() {
-        averageWTChart?.yAxis?.label = "Cycles"
-        averageWTChart?.xAxis?.label = "Process name"
-        val xAxis = averageWTChart?.xAxis as CategoryAxis
+        averageWTChart.yAxis.label = "Cycles"
+        averageWTChart.xAxis.label = "Process name"
+        val xAxis = averageWTChart.xAxis as CategoryAxis
         xAxis.categories = processStats
             .map(IProcessStats::name)
             .toCollection(
@@ -79,14 +79,14 @@ class StatWindowController(
         processStats.forEach {
             series.data.add(XYChart.Data(it.name, it.averageWaitingCycles.toDouble()))
         }
-        averageWTChart?.data?.add(series)
-        averageWTChart?.prefWidth = (processStats.size * 75).toDouble()
+        averageWTChart.data.add(series)
+        averageWTChart.prefWidth = (processStats.size * 75).toDouble()
     }
 
     private fun processExecChart() {
-        processExecChart?.yAxis?.label = "Cycles"
-        processExecChart?.xAxis?.label = "Process name"
-        val xAxis = processExecChart?.xAxis as CategoryAxis
+        processExecChart.yAxis.label = "Cycles"
+        processExecChart.xAxis.label = "Process name"
+        val xAxis = processExecChart.xAxis as CategoryAxis
         xAxis.categories = processStats
             .map(IProcessStats::name)
             .toCollection(
@@ -125,10 +125,10 @@ class StatWindowController(
                 )
             )
         }
-        processExecChart?.data?.add(waitingSeries)
-        processExecChart?.data?.add(interruptedSeries)
-        processExecChart?.data?.add(execSeries)
-        processExecChart?.prefWidth = (processStats.size * 75).toDouble()
+        processExecChart.data.add(waitingSeries)
+        processExecChart.data.add(interruptedSeries)
+        processExecChart.data.add(execSeries)
+        processExecChart.prefWidth = (processStats.size * 75).toDouble()
     }
 
     private fun countChart() {
@@ -144,20 +144,20 @@ class StatWindowController(
             interruptedSeries.data.add(XYChart.Data(index, value))
         }
         interruptedSeries.name = "interrupted processes"
-        countChart!!.data?.add(waitingSeries)
-        countChart?.data?.add(interruptedSeries)
-        countChart?.prefWidth = max(cpuStats.totalCycles * 3, 600).toDouble()
-        countChart?.xAxis?.label = "Number of processes"
-        countChart?.yAxis?.label = "Cycle"
-        countChart?.createSymbols = false
+        countChart.data.add(waitingSeries)
+        countChart.data.add(interruptedSeries)
+        countChart.prefWidth = max(cpuStats.totalCycles * 3, 600).toDouble()
+        countChart.xAxis.label = "Number of processes"
+        countChart.yAxis.label = "Cycle"
+        countChart.createSymbols = false
     }
 
     private fun idleVsExecChart() {
-        idleExecCycles!!.data.addAll(
+        idleExecCycles.data.addAll(
             PieChart.Data(EXECUTING_CYCLES, cpuStats.executingCycles.toDouble()),
             PieChart.Data(IDLE_CYCLES, cpuStats.idleCycles.toDouble())
         )
-        idleExecCycles?.data?.forEach {
+        idleExecCycles.data.forEach {
             it.nameProperty().bind(
                 Bindings.concat(
                     it.name,

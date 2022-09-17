@@ -21,25 +21,24 @@ import java.util.function.Function
 class MainWindowController {
 
     @FXML
-    private var waitingProcesses: ListView<String>? = null
+    private lateinit var waitingProcesses: ListView<String>
 
     @FXML
-    private var interruptedProcesses: ListView<String>? = null
+    private lateinit var interruptedProcesses: ListView<String>
 
     @FXML
-    private var cycle: Label? = null
+    private lateinit var cycle: Label
 
     @FXML
-    private var currentProcessName: Label? = null
+    private lateinit var currentProcessName: Label
 
-
-    private var cpuScheduler: CpuScheduler? = null
+    private lateinit var cpuScheduler: CpuScheduler
 
     private var timeline: Timeline? = null
 
     @FXML
     private fun initialize() {
-        cycle?.text = "Cycle: 0"
+        cycle.text = "Cycle: 0"
         cpuScheduler = CpuScheduler(generateProcesses())
         updateWaitingProcessesView()
         if (timeline != null) {
@@ -80,13 +79,13 @@ class MainWindowController {
     }
 
     private fun updateWaitingProcessesView() {
-        waitingProcesses?.items?.clear()
-        cpuScheduler?.consumeWaitingProcessesNames(waitingProcesses!!.items::add)
+        waitingProcesses.items.clear()
+        cpuScheduler.consumeWaitingProcessesNames(waitingProcesses.items::add)
     }
 
     private fun updateInterruptedProcesses() {
-        interruptedProcesses?.items?.clear()
-        cpuScheduler?.consumeInterruptedProcessesNames(interruptedProcesses!!.items::add)
+        interruptedProcesses.items.clear()
+        cpuScheduler.consumeInterruptedProcessesNames(interruptedProcesses.items::add)
     }
 
     @FXML
@@ -99,12 +98,12 @@ class MainWindowController {
     }
 
     private fun nextCycle() {
-        cpuScheduler!!.nextCycle()
-        cycle!!.text = "Cycle: " + cpuScheduler?.currentCycle
+        cpuScheduler.nextCycle()
+        cycle.text = "Cycle: " + cpuScheduler.currentCycle
         updateWaitingProcessesView()
         updateInterruptedProcesses()
-        currentProcessName!!.text = cpuScheduler!!.getCurrentProcessName()
-        if (cpuScheduler?.hasEnded == true) {
+        currentProcessName.text = cpuScheduler.getCurrentProcessName()
+        if (cpuScheduler.hasEnded) {
             timeline!!.stop()
             timeline = null
             openStats()
@@ -115,8 +114,8 @@ class MainWindowController {
         val loader = FXMLLoader(getResourceURL("stats.fxml"))
         loader.setController(
             StatWindowController(
-                cpuScheduler!!.calculateCpuStats(),
-                cpuScheduler!!.calculateProcessStats()
+                cpuScheduler.calculateCpuStats(),
+                cpuScheduler.calculateProcessStats()
             )
         )
         val root = loader.load<Parent>()
